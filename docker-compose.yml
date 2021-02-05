@@ -9,8 +9,6 @@ services:
       - 8140
     volumes:
       - ./nodes/puppetserver/code:/etc/puppetlabs/code/
-      - ./nodes/puppetserver/ssl:/etc/puppetlabs/puppet/ssl/
-      - ./nodes/puppetserver/serverdata:/opt/puppetlabs/server/data/puppetserver/
   puppetdb-postgres:
     container_name: postgres
     image: postgres:9.6-alpine
@@ -21,8 +19,6 @@ services:
       - POSTGRES_USER=puppetdb
     expose:
       - 5432
-    volumes:
-      - ./nodes/puppetdb-postgres/data:/var/lib/postgresql/data/
   puppetdb:
     depends_on:
       - puppetdb-postgres
@@ -32,15 +28,11 @@ services:
     ports:
       - 8080
       - 8081
-    volumes:
-      - ./nodes/puppetdb/ssl:/etc/puppetlabs/puppet/ssl/
   ubuntu1:
     hostname: ubuntu1
     container_name: ubuntu1
+    depends_on:
+      - puppetserver
     image:  puppet/puppet-agent-ubuntu
-    volumes:
-      - ./nodes/ubuntu1/ssl:/etc/puppetlabs/puppet/ssl/
+    command: "agent --verbose --no-daemonize --summarize"
     
-
-# networks:
-#   devops-nw:
