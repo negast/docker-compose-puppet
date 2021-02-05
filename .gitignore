@@ -1,5 +1,2 @@
-rpms/*.rpm
-docker/nodes/*
-docker/dockerfiles/dom-gui/devops/*
-docker/dockerfiles/*/rpms/*.rpm
-api/venv/*
+./nodes/*
+
